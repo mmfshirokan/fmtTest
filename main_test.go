@@ -3,32 +3,30 @@ package main
 import (
 	"fmt"
 	"io"
-	"strings"
 	"testing"
 )
 
-func BenchmarkV(b *testing.B) {
+func BenchmarkSprintfV(b *testing.B) {
 	for b.Loop() {
-		b := fmt.Sprintf("%v", errMy)
-		strings.Compare(b, "")
+		fmt.Sprintf("%v", errMy)
 	}
 }
 
-func BenchmarkVPlus(b *testing.B) {
+func BenchmarkSprintfVPlus(b *testing.B) {
 	for b.Loop() {
-		b := fmt.Sprintf("%+v", errMy)
-		strings.Compare(b, "")
+		fmt.Sprintf("%+v", errMy)
+
 	}
 }
 
-func BenchmarkS(b *testing.B) {
+func BenchmarkSprintfS(b *testing.B) {
 	for b.Loop() {
-		b := fmt.Sprintf("%s", errMy)
-		strings.Compare(b, "")
+		fmt.Sprintf("%s", errMy)
+
 	}
 }
 
-func BenchmarkPrintV(b *testing.B) {
+func BenchmarkFprintfV(b *testing.B) {
 	for b.Loop() {
 		_, err := fmt.Fprintf(io.Discard, "%v", errMy)
 		if err != nil {
@@ -37,7 +35,7 @@ func BenchmarkPrintV(b *testing.B) {
 	}
 }
 
-func BenchmarkPrintVPlus(b *testing.B) {
+func BenchmarkFprintfVPlus(b *testing.B) {
 	for b.Loop() {
 		_, err := fmt.Fprintf(io.Discard, "%+v", errMy)
 		if err != nil {
@@ -46,7 +44,7 @@ func BenchmarkPrintVPlus(b *testing.B) {
 	}
 }
 
-func BenchmarkPrintS(b *testing.B) {
+func BenchmarkFprintfS(b *testing.B) {
 	for b.Loop() {
 		_, err := fmt.Fprintf(io.Discard, "%s", errMy)
 		if err != nil {
@@ -55,29 +53,31 @@ func BenchmarkPrintS(b *testing.B) {
 	}
 }
 
-func BenchmarkStdErrPrintV(b *testing.B) {
+func BenchmarkErrorfV(b *testing.B) {
+
 	for b.Loop() {
-		_, err := fmt.Fprintf(io.Discard, "%v", errMy)
-		if err != nil {
-			b.Fatal(err)
-		}
+		fmt.Errorf("%v", errMy)
+
 	}
 }
 
-func BenchmarkStdErrPrintVPlus(b *testing.B) {
+func BenchmarkErrorfVPlus(b *testing.B) {
+
 	for b.Loop() {
-		_, err := fmt.Fprintf(io.Discard, "%+v", errMy)
-		if err != nil {
-			b.Fatal(err)
-		}
+		fmt.Errorf("%+v", errMy)
+
 	}
 }
 
-func BenchmarkStdErrPrintS(b *testing.B) {
+func BenchmarkErrorfS(b *testing.B) {
+
 	for b.Loop() {
-		_, err := fmt.Fprintf(io.Discard, "%s", errMy)
-		if err != nil {
-			b.Fatal(err)
-		}
+		fmt.Errorf("%s", errMy)
+	}
+}
+func BenchmarkErrorfW(b *testing.B) {
+
+	for b.Loop() {
+		fmt.Errorf("%w", errMy)
 	}
 }
